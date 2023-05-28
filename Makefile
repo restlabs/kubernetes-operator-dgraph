@@ -210,15 +210,23 @@ catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
 
 
+# This target creates a new Kubernetes cluster using kind. It configures the cluster based on the cluster-config.yaml file. It also exports the cluster's kubeconfig to .kind-kubeconfig.yaml
 .PHONY: create-kind-cluster 
 create-kind-cluster:
 	kind create cluster --config dev/kind/cluster-config.yaml
 	kind get kubeconfig > .kind-kubeconfig.yaml
 
+# This target deletes the Kubernetes cluster named 'kind' created by kind. It also removes the exported kubeconfig file.
 .PHONY: delete-kind-cluster
 delete-kind-cluster:
 	kind delete cluster --name kind
 	rm .kind-kubeconfig.yaml
 
+# This target resets the Kubernetes cluster by deleting the existing cluster and creating a new one.
 .PHONY: reset-kind-cluster
 reset-kind-cluster: delete-kind-cluster create-kind-cluster
+
+# This target loads the docker image specified by $(IMG) into the kind cluster. This allows the cluster to use the image without pulling it from a registry.
+.PHONY: load-image-to-kind
+load-image-to-kind:
+	kind load docker-image $(IMG)
