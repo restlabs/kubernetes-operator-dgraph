@@ -12,7 +12,7 @@ metadata:
   name: dgraph-viewer-role
 rules:
 - apiGroups:
-  - charts.roshanbhatia.com
+  - roshanbhatia.com
   resources:
   - dgraphs
   verbs:
@@ -20,7 +20,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - charts.roshanbhatia.com
+  - roshanbhatia.com
   resources:
   - dgraphs/status
   verbs:

@@ -2,9 +2,9 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: dgraphs.charts.roshanbhatia.com
+  name: dgraphs.roshanbhatia.com
 spec:
-  group: charts.roshanbhatia.com
+  group: roshanbhatia.com
   names:
     kind: Dgraph
     listKind: DgraphList

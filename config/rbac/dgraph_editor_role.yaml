@@ -12,7 +12,7 @@ metadata:
   name: dgraph-editor-role
 rules:
 - apiGroups:
-  - charts.roshanbhatia.com
+  - roshanbhatia.com
   resources:
   - dgraphs
   verbs:
@@ -24,7 +24,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - charts.roshanbhatia.com
+  - roshanbhatia.com
   resources:
   - dgraphs/status
   verbs:

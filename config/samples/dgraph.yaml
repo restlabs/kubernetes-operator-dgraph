@@ -1,4 +1,4 @@
-apiVersion: charts.roshanbhatia.com/v1alpha1
+apiVersion: roshanbhatia.com/v1alpha1
 kind: Dgraph
 metadata:
   name: dgraph-sample
