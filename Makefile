@@ -230,3 +230,7 @@ reset-kind-cluster: delete-kind-cluster create-kind-cluster
 .PHONY: load-image-to-kind
 load-image-to-kind:
 	kind load docker-image $(IMG)
+
+.PHONY: deploy-sample-to-kind
+deploy-sample-to-kind:
+	kubectl apply -f config/samples/dgraph.yaml
