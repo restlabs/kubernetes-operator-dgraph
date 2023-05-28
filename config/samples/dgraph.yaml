@@ -3,7 +3,7 @@ kind: Dgraph
 metadata:
   name: dgraph-sample
 spec:
-  # Default values copied from <project_dir>/helm-charts/dgraph/values.yaml
+  # Default values copied from https://github.com/dgraph-io/charts
   alpha:
     acl:
       enabled: false
