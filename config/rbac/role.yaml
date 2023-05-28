@@ -80,4 +80,17 @@ rules:
   - update
   - watch
 
+# This seems quite permissive, but had to be added to allow the operator to perform CRUD operations on the service accounts
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 #+kubebuilder:scaffold:rules
