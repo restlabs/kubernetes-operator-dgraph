@@ -1,0 +1,293 @@
+apiVersion: charts.roshanbhatia.com/v1alpha1
+kind: Dgraph
+metadata:
+  name: dgraph-sample
+spec:
+  # Default values copied from <project_dir>/helm-charts/dgraph/values.yaml
+  alpha:
+    acl:
+      enabled: false
+    antiAffinity: soft
+    configFile: {}
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    encryption:
+      enabled: false
+    extraAnnotations: {}
+    extraEnvs: []
+    extraFlags: ""
+    ingress:
+      enabled: false
+    ingress_grpc:
+      enabled: false
+    initContainers:
+      init:
+        command:
+        - bash
+        - -c
+        - |
+          trap "exit" SIGINT SIGTERM
+          echo "Write to /dgraph/doneinit when ready."
+          until [ -f /dgraph/doneinit ]; do sleep 2; done
+        enabled: false
+        image:
+          debug: false
+          pullPolicy: IfNotPresent
+          registry: docker.io
+          repository: dgraph/dgraph
+          tag: v23.0.0
+    livenessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 15
+      path: /health?live=1
+      periodSeconds: 10
+      port: 8080
+      successThreshold: 1
+      timeoutSeconds: 5
+    metrics:
+      enabled: true
+    monitorLabel: alpha-dgraph-io
+    name: alpha
+    nodeAffinity: {}
+    nodeSelector: {}
+    persistence:
+      accessModes:
+      - ReadWriteOnce
+      annotations: {}
+      enabled: true
+      size: 100Gi
+    podAntiAffinitytopologyKey: kubernetes.io/hostname
+    podLabels: {}
+    podManagementPolicy: OrderedReady
+    readinessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 15
+      path: /health
+      periodSeconds: 10
+      port: 8080
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicaCount: 3
+    resources:
+      requests:
+        memory: 100Mi
+    securityContext:
+      enabled: false
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      externalTrafficPolicy: ""
+      labels: {}
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+      publishNotReadyAddresses: true
+      type: ClusterIP
+    serviceHeadless:
+      labels: {}
+    startupProbe:
+      enabled: false
+      failureThreshold: 30
+      path: /health?live=1
+      periodSeconds: 10
+      port: 8080
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationGracePeriodSeconds: 600
+    tls:
+      enabled: false
+      files: {}
+    tolerations: []
+    updateStrategy: RollingUpdate
+  backups:
+    admin:
+      auth_token: ""
+      tls_client: ""
+      user: groot
+    destination: /dgraph/backups
+    full:
+      debug: false
+      enabled: false
+      restartPolicy: Never
+      schedule: 0 0 * * *
+    image:
+      debug: false
+      pullPolicy: IfNotPresent
+      registry: docker.io
+      repository: dgraph/dgraph
+      tag: v23.0.0
+    incremental:
+      debug: false
+      enabled: false
+      restartPolicy: Never
+      schedule: 0 1-23 * * *
+    keys:
+      minio:
+        access: ""
+        secret: ""
+      s3:
+        access: ""
+        secret: ""
+    minioSecure: false
+    name: backups
+    nfs:
+      enabled: false
+      mountPath: /dgraph/backups
+      path: ""
+      server: ""
+      storage: 512Gi
+    podLabels: {}
+    subpath: dgraph_$(date +%Y%m%d)
+    volume:
+      claim: ""
+      enabled: false
+      mountPath: /dgraph/backups/
+  global:
+    domain: cluster.local
+    ingress:
+      alpha_hostname: ""
+      annotations: {}
+      enabled: false
+      ingressClassName: null
+      ratel_hostname: ""
+      tls: {}
+    ingress_grpc:
+      alpha_grpc_hostname: ""
+      annotations: {}
+      enabled: false
+      ingressClassName: null
+      tls: {}
+  image:
+    debug: false
+    pullPolicy: IfNotPresent
+    registry: docker.io
+    repository: dgraph/dgraph
+    tag: v23.0.0
+  ratel:
+    args: []
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    enabled: false
+    extraAnnotations: {}
+    extraEnvs: []
+    image:
+      registry: docker.io
+      repository: dgraph/ratel
+      tag: v21.03.1
+    ingress:
+      enabled: false
+    livenessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      path: /
+      periodSeconds: 10
+      port: 8000
+      successThreshold: 1
+      timeoutSeconds: 5
+    name: ratel
+    podLabels: {}
+    readinessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 5
+      path: /
+      periodSeconds: 10
+      port: 8000
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicaCount: 1
+    securityContext:
+      enabled: false
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      externalTrafficPolicy: ""
+      labels: {}
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+      type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: dgraph
+  zero:
+    antiAffinity: soft
+    configFile: {}
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    extraAnnotations: {}
+    extraEnvs: []
+    extraFlags: ""
+    livenessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 15
+      path: /health
+      periodSeconds: 10
+      port: 6080
+      successThreshold: 1
+      timeoutSeconds: 5
+    metrics:
+      enabled: true
+    monitorLabel: zero-dgraph-io
+    name: zero
+    nodeAffinity: {}
+    nodeSelector: {}
+    persistence:
+      accessModes:
+      - ReadWriteOnce
+      enabled: true
+      size: 32Gi
+    podAntiAffinitytopologyKey: kubernetes.io/hostname
+    podLabels: {}
+    podManagementPolicy: OrderedReady
+    readinessProbe:
+      enabled: false
+      failureThreshold: 6
+      initialDelaySeconds: 15
+      path: /health
+      periodSeconds: 10
+      port: 6080
+      successThreshold: 1
+      timeoutSeconds: 5
+    replicaCount: 3
+    resources:
+      requests:
+        memory: 100Mi
+    securityContext:
+      enabled: false
+      fsGroup: 1001
+      runAsUser: 1001
+    service:
+      annotations: {}
+      externalTrafficPolicy: ""
+      labels: {}
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+      publishNotReadyAddresses: true
+      type: ClusterIP
+    serviceHeadless:
+      labels: {}
+    shardReplicaCount: 5
+    startupProbe:
+      enabled: false
+      failureThreshold: 6
+      path: /health
+      periodSeconds: 10
+      port: 6080
+      successThreshold: 1
+      timeoutSeconds: 5
+    terminationGracePeriodSeconds: 60
+    tls:
+      enabled: false
+      files: {}
+    tolerations: []
+    updateStrategy: RollingUpdate
+  
+  
