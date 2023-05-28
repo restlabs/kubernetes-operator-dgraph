@@ -208,3 +208,17 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+
+
+.PHONY: create-kind-cluster 
+create-kind-cluster:
+	kind create cluster --config dev/kind/cluster-config.yaml
+	kind get kubeconfig > .kind-kubeconfig.yaml
+
+.PHONY: delete-kind-cluster
+delete-kind-cluster:
+	kind delete cluster --name kind
+	rm .kind-kubeconfig.yaml
+
+.PHONY: reset-kind-cluster
+reset-kind-cluster: delete-kind-cluster create-kind-cluster
